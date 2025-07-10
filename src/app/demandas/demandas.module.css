@@ -1,0 +1,51 @@
+.container {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.header {
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid var(--border);
+  background: var(--background);
+}
+
+.title {
+  font-size: 1.875rem;
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--foreground);
+  margin: 0;
+}
+
+.subtitle {
+  color: var(--muted-foreground);
+  margin-top: 0.25rem;
+  margin-bottom: 0;
+}
+
+.tableContainer {
+  flex: 1;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.tableWrapper {
+  flex: 1;
+  overflow: auto;
+  padding: 0 1rem 1rem 1rem;
+}
+
+@media (min-width: 1024px) {
+  .tableWrapper {
+    padding: 0 1.5rem 1.5rem 1.5rem;
+  }
+}

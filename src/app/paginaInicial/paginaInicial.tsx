@@ -4,9 +4,20 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Globe, Users, TrendingUp, FileText } from "lucide-react";
+import { useRouter } from "next/navigation";
 import styles from "./paginaInicial.module.css";
 
 export default function PaginaInicial() {
+  const router = useRouter();
+
+  const handleEntrarSistema = () => {
+    router.push('/demandas');
+  };
+
+  const handleComecarAgora = () => {
+    router.push('/demandas');
+  };
+
   return (
     <div className={styles.container}>
       {/* Header */}
@@ -18,7 +29,7 @@ export default function PaginaInicial() {
               Sistema de Demandas
             </h1>
           </div>
-          <Button variant="outline" className="hidden sm:flex">
+          <Button variant="outline" className="hidden sm:flex" onClick={handleEntrarSistema}>
             Entrar no Sistema
           </Button>
         </div>
@@ -39,7 +50,7 @@ export default function PaginaInicial() {
             e colaboração em equipe com interface moderna e intuitiva.
           </p>
           <div className={styles.heroButtons}>
-            <Button size="lg" className="text-lg px-8 py-3">
+            <Button size="lg" className="text-lg px-8 py-3" onClick={handleComecarAgora}>
               Começar Agora
             </Button>
             <Button variant="outline" size="lg" className="text-lg px-8 py-3">
