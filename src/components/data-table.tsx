@@ -28,11 +28,13 @@ import {
   IconChevronsRight,
   IconCircleCheckFilled,
   IconDotsVertical,
+  IconEdit,
   IconGripVertical,
   IconLayoutColumns,
   IconLoader,
   IconPlus,
   IconTrendingUp,
+  IconTrash,
 } from "@tabler/icons-react"
 import {
   ColumnDef,
@@ -108,12 +110,10 @@ import {
 
 export const schema = z.object({
   id: z.number(),
-  header: z.string(),
-  type: z.string(),
+  numeroDemanda: z.string(),
+  titulo: z.string(),
   status: z.string(),
-  target: z.string(),
-  limit: z.string(),
-  reviewer: z.string(),
+  prazo: z.string(),
 })
 
 // Create a separate component for the drag handle
@@ -140,17 +140,17 @@ export function DataTable({
   data: initialData,
   showHeaderControls = true,
   customColumnNames,
+  pageSize = 10,
 }: {
   data: z.infer<typeof schema>[]
   showHeaderControls?: boolean
   customColumnNames?: {
-    header?: string
-    type?: string
+    numeroDemanda?: string
+    titulo?: string
     status?: string
-    target?: string
-    limit?: string
-    reviewer?: string
+    prazo?: string
   }
+  pageSize?: number
 }) {
   const [data, setData] = React.useState(() => initialData)
   const [rowSelection, setRowSelection] = React.useState({})
@@ -162,7 +162,7 @@ export function DataTable({
   const [sorting, setSorting] = React.useState<SortingState>([])
   const [pagination, setPagination] = React.useState({
     pageIndex: 0,
-    pageSize: 10,
+    pageSize: pageSize,
   })
   const sortableId = React.useId()
   const sensors = useSensors(
@@ -209,144 +209,75 @@ export function DataTable({
       enableHiding: false,
     },
     {
-      accessorKey: "header",
-      header: customColumnNames?.header || "Header",
-      cell: ({ row }) => {
-        return <TableCellViewer item={row.original} />
-      },
+      accessorKey: "numeroDemanda",
+      header: customColumnNames?.numeroDemanda || "Nº Demanda",
+      cell: ({ row }) => (
+        <div className="font-medium">
+          {row.original.numeroDemanda}
+        </div>
+      ),
       enableHiding: false,
     },
     {
-      accessorKey: "type",
-      header: customColumnNames?.type || "Section Type",
+      accessorKey: "titulo",
+      header: customColumnNames?.titulo || "Título",
       cell: ({ row }) => (
-        <div className="w-32">
-          <Badge variant="outline" className="text-muted-foreground px-1.5">
-            {row.original.type}
-          </Badge>
+        <div className="font-medium">
+          {row.original.titulo}
         </div>
       ),
     },
     {
       accessorKey: "status",
       header: customColumnNames?.status || "Status",
-      cell: ({ row }) => (
-        <Badge variant="outline" className="text-muted-foreground px-1.5">
-          {row.original.status === "Done" ? (
-            <IconCircleCheckFilled className="fill-green-500 dark:fill-green-400" />
-          ) : (
-            <IconLoader />
-          )}
-          {row.original.status}
-        </Badge>
-      ),
-    },
-    {
-      accessorKey: "target",
-      header: () => <div className="w-full text-right">{customColumnNames?.target || "Target"}</div>,
-      cell: ({ row }) => (
-        <form
-          onSubmit={(e) => {
-            e.preventDefault()
-            toast.promise(new Promise((resolve) => setTimeout(resolve, 1000)), {
-              loading: `Saving ${row.original.header}`,
-              success: "Done",
-              error: "Error",
-            })
-          }}
-        >
-          <Label htmlFor={`${row.original.id}-target`} className="sr-only">
-            {customColumnNames?.target || "Target"}
-          </Label>
-          <Input
-            className="hover:bg-input/30 focus-visible:bg-background dark:hover:bg-input/30 dark:focus-visible:bg-input/30 h-8 w-16 border-transparent bg-transparent text-right shadow-none focus-visible:border dark:bg-transparent"
-            defaultValue={row.original.target}
-            id={`${row.original.id}-target`}
-          />
-        </form>
-      ),
-    },
-    {
-      accessorKey: "limit",
-      header: () => <div className="w-full text-right">{customColumnNames?.limit || "Limit"}</div>,
-      cell: ({ row }) => (
-        <form
-          onSubmit={(e) => {
-            e.preventDefault()
-            toast.promise(new Promise((resolve) => setTimeout(resolve, 1000)), {
-              loading: `Saving ${row.original.header}`,
-              success: "Done",
-              error: "Error",
-            })
-          }}
-        >
-          <Label htmlFor={`${row.original.id}-limit`} className="sr-only">
-            {customColumnNames?.limit || "Limit"}
-          </Label>
-          <Input
-            className="hover:bg-input/30 focus-visible:bg-background dark:hover:bg-input/30 dark:focus-visible:bg-input/30 h-8 w-16 border-transparent bg-transparent text-right shadow-none focus-visible:border dark:bg-transparent"
-            defaultValue={row.original.limit}
-            id={`${row.original.id}-limit`}
-          />
-        </form>
-      ),
-    },
-    {
-      accessorKey: "reviewer",
-      header: customColumnNames?.reviewer || "Reviewer",
       cell: ({ row }) => {
-        const isAssigned = row.original.reviewer !== "Assign reviewer"
-
-        if (isAssigned) {
-          return row.original.reviewer
-        }
-
+        let colorClass = "bg-gray-100 text-gray-700";
+        if (row.original.status === "Concluído") colorClass = "bg-green-100 text-green-700";
+        else if (row.original.status === "Em andamento") colorClass = "bg-blue-100 text-blue-700";
+        else if (row.original.status === "Pendente") colorClass = "bg-yellow-100 text-yellow-700";
+        else if (row.original.status === "Suspenso") colorClass = "bg-red-100 text-red-700";
         return (
-          <>
-            <Label htmlFor={`${row.original.id}-reviewer`} className="sr-only">
-              {customColumnNames?.reviewer || "Reviewer"}
-            </Label>
-            <Select>
-              <SelectTrigger
-                className="w-38 **:data-[slot=select-value]:block **:data-[slot=select-value]:truncate"
-                size="sm"
-                id={`${row.original.id}-reviewer`}
-              >
-                <SelectValue placeholder="Assign reviewer" />
-              </SelectTrigger>
-              <SelectContent align="end">
-                <SelectItem value="Eddie Lake">Eddie Lake</SelectItem>
-                <SelectItem value="Jamik Tashpulatov">
-                  Jamik Tashpulatov
-                </SelectItem>
-              </SelectContent>
-            </Select>
-          </>
-        )
+          <span className={`px-2 py-1 rounded text-xs font-semibold ${colorClass}`}>{row.original.status}</span>
+        );
       },
     },
     {
+      accessorKey: "prazo",
+      header: customColumnNames?.prazo || "Prazo",
+      cell: ({ row }) => (
+        <div className="text-sm text-muted-foreground">
+          {row.original.prazo}
+        </div>
+      ),
+    },
+    {
       id: "actions",
-      cell: () => (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button
-              variant="ghost"
-              className="data-[state=open]:bg-muted text-muted-foreground flex size-8"
-              size="icon"
-            >
-              <IconDotsVertical />
-              <span className="sr-only">Open menu</span>
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end" className="w-32">
-            <DropdownMenuItem>Edit</DropdownMenuItem>
-            <DropdownMenuItem>Make a copy</DropdownMenuItem>
-            <DropdownMenuItem>Favorite</DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem variant="destructive">Delete</DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
+      header: "Ações",
+      cell: ({ row }) => (
+        <div className="flex items-center gap-2">
+          <Button
+            variant="ghost"
+            size="sm"
+            className="h-8 w-8 p-0"
+            onClick={() => {
+              toast.success(`Editando demanda ${row.original.numeroDemanda}`)
+            }}
+          >
+            <IconEdit className="h-4 w-4" />
+            <span className="sr-only">Editar</span>
+          </Button>
+          <Button
+            variant="ghost"
+            size="sm"
+            className="h-8 w-8 p-0 text-destructive hover:text-destructive"
+            onClick={() => {
+              toast.error(`Excluindo demanda ${row.original.numeroDemanda}`)
+            }}
+          >
+            <IconTrash className="h-4 w-4" />
+            <span className="sr-only">Excluir</span>
+          </Button>
+        </div>
       ),
     },
   ]
@@ -667,12 +598,12 @@ function TableCellViewer({ item }: { item: z.infer<typeof schema> }) {
     <Drawer direction={isMobile ? "bottom" : "right"}>
       <DrawerTrigger asChild>
         <Button variant="link" className="text-foreground w-fit px-0 text-left">
-          {item.header}
+          {item.titulo}
         </Button>
       </DrawerTrigger>
       <DrawerContent>
         <DrawerHeader className="gap-1">
-          <DrawerTitle>{item.header}</DrawerTitle>
+          <DrawerTitle>{item.titulo}</DrawerTitle>
           <DrawerDescription>
             Showing total visitors for the last 6 months
           </DrawerDescription>
@@ -727,9 +658,7 @@ function TableCellViewer({ item }: { item: z.infer<typeof schema> }) {
                   <IconTrendingUp className="size-4" />
                 </div>
                 <div className="text-muted-foreground">
-                  Showing total visitors for the last 6 months. This is just
-                  some random text to test the layout. It spans multiple lines
-                  and should wrap around.
+                  Detalhes da demanda e informações importantes.
                 </div>
               </div>
               <Separator />
@@ -737,36 +666,10 @@ function TableCellViewer({ item }: { item: z.infer<typeof schema> }) {
           )}
           <form className="flex flex-col gap-4">
             <div className="flex flex-col gap-3">
-              <Label htmlFor="header">Header</Label>
-              <Input id="header" defaultValue={item.header} />
+              <Label htmlFor="titulo">Título</Label>
+              <Input id="titulo" defaultValue={item.titulo} />
             </div>
             <div className="grid grid-cols-2 gap-4">
-              <div className="flex flex-col gap-3">
-                <Label htmlFor="type">Type</Label>
-                <Select defaultValue={item.type}>
-                  <SelectTrigger id="type" className="w-full">
-                    <SelectValue placeholder="Select a type" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="Table of Contents">
-                      Table of Contents
-                    </SelectItem>
-                    <SelectItem value="Executive Summary">
-                      Executive Summary
-                    </SelectItem>
-                    <SelectItem value="Technical Approach">
-                      Technical Approach
-                    </SelectItem>
-                    <SelectItem value="Design">Design</SelectItem>
-                    <SelectItem value="Capabilities">Capabilities</SelectItem>
-                    <SelectItem value="Focus Documents">
-                      Focus Documents
-                    </SelectItem>
-                    <SelectItem value="Narrative">Narrative</SelectItem>
-                    <SelectItem value="Cover Page">Cover Page</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
               <div className="flex flex-col gap-3">
                 <Label htmlFor="status">Status</Label>
                 <Select defaultValue={item.status}>
@@ -780,31 +683,6 @@ function TableCellViewer({ item }: { item: z.infer<typeof schema> }) {
                   </SelectContent>
                 </Select>
               </div>
-            </div>
-            <div className="grid grid-cols-2 gap-4">
-              <div className="flex flex-col gap-3">
-                <Label htmlFor="target">Target</Label>
-                <Input id="target" defaultValue={item.target} />
-              </div>
-              <div className="flex flex-col gap-3">
-                <Label htmlFor="limit">Limit</Label>
-                <Input id="limit" defaultValue={item.limit} />
-              </div>
-            </div>
-            <div className="flex flex-col gap-3">
-              <Label htmlFor="reviewer">Reviewer</Label>
-              <Select defaultValue={item.reviewer}>
-                <SelectTrigger id="reviewer" className="w-full">
-                  <SelectValue placeholder="Select a reviewer" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="Eddie Lake">Eddie Lake</SelectItem>
-                  <SelectItem value="Jamik Tashpulatov">
-                    Jamik Tashpulatov
-                  </SelectItem>
-                  <SelectItem value="Emily Whalen">Emily Whalen</SelectItem>
-                </SelectContent>
-              </Select>
             </div>
           </form>
         </div>
