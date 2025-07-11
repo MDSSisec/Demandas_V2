@@ -24,6 +24,7 @@ import {
   IconChevronDown,
   IconChevronLeft,
   IconChevronRight,
+  IconChevronUp,
   IconChevronsLeft,
   IconChevronsRight,
   IconCircleCheckFilled,
@@ -110,6 +111,7 @@ import {
 
 export const schema = z.object({
   id: z.number(),
+  prioridade: z.number().optional(),
   numeroDemanda: z.string(),
   titulo: z.string(),
   status: z.string(),
@@ -141,18 +143,32 @@ export function DataTable({
   showHeaderControls = true,
   customColumnNames,
   pageSize = 10,
+  isPrioridadePage = false,
+  onMoveUp,
+  onMoveDown,
+  onRemoveFromPriorities,
 }: {
   data: z.infer<typeof schema>[]
   showHeaderControls?: boolean
   customColumnNames?: {
+    prioridade?: string
     numeroDemanda?: string
     titulo?: string
     status?: string
     prazo?: string
   }
   pageSize?: number
+  isPrioridadePage?: boolean
+  onMoveUp?: (id: number) => void
+  onMoveDown?: (id: number) => void
+  onRemoveFromPriorities?: (id: number) => void
 }) {
   const [data, setData] = React.useState(() => initialData)
+  
+  // Atualizar dados quando initialData mudar
+  React.useEffect(() => {
+    setData(initialData)
+  }, [initialData])
   const [rowSelection, setRowSelection] = React.useState({})
   const [columnVisibility, setColumnVisibility] =
     React.useState<VisibilityState>({})
@@ -177,11 +193,11 @@ export function DataTable({
   )
 
   const columns: ColumnDef<z.infer<typeof schema>>[] = [
-    {
+    ...(isPrioridadePage ? [] : [{
       id: "drag",
       header: () => null,
-      cell: ({ row }) => <DragHandle id={row.original.id} />,
-    },
+      cell: ({ row }: { row: Row<z.infer<typeof schema>> }) => <DragHandle id={row.original.id} />,
+    }]),
     {
       id: "select",
       header: ({ table }) => (
@@ -208,6 +224,16 @@ export function DataTable({
       enableSorting: false,
       enableHiding: false,
     },
+    ...(isPrioridadePage ? [{
+      accessorKey: "prioridade",
+      header: customColumnNames?.prioridade || "Prioridade",
+      cell: ({ row }: { row: Row<z.infer<typeof schema>> }) => (
+        <div className="font-bold text-lg text-primary">
+          #{String(row.original.prioridade).padStart(2, '0')}
+        </div>
+      ),
+      enableHiding: false,
+    }] : []),
     {
       accessorKey: "numeroDemanda",
       header: customColumnNames?.numeroDemanda || "Nº Demanda",
@@ -250,32 +276,71 @@ export function DataTable({
         </div>
       ),
     },
+    ...(isPrioridadePage ? [{
+      id: "mover",
+      header: "Mover",
+      cell: ({ row }: { row: Row<z.infer<typeof schema>> }) => (
+        <div className="flex items-center gap-1">
+          <Button
+            variant="ghost"
+            size="sm"
+            className="h-6 w-6 p-0"
+            onClick={() => {
+              onMoveUp?.(row.original.id);
+              toast.success(`Movendo demanda ${row.original.numeroDemanda} para cima`)
+            }}
+          >
+            <IconChevronUp className="h-3 w-3" />
+            <span className="sr-only">Mover para cima</span>
+          </Button>
+          <Button
+            variant="ghost"
+            size="sm"
+            className="h-6 w-6 p-0"
+            onClick={() => {
+              onMoveDown?.(row.original.id);
+              toast.success(`Movendo demanda ${row.original.numeroDemanda} para baixo`)
+            }}
+          >
+            <IconChevronDown className="h-3 w-3" />
+            <span className="sr-only">Mover para baixo</span>
+          </Button>
+        </div>
+      ),
+    }] : []),
     {
       id: "actions",
       header: "Ações",
       cell: ({ row }) => (
         <div className="flex items-center gap-2">
-          <Button
-            variant="ghost"
-            size="sm"
-            className="h-8 w-8 p-0"
-            onClick={() => {
-              toast.success(`Editando demanda ${row.original.numeroDemanda}`)
-            }}
-          >
-            <IconEdit className="h-4 w-4" />
-            <span className="sr-only">Editar</span>
-          </Button>
+          {!isPrioridadePage && (
+            <Button
+              variant="ghost"
+              size="sm"
+              className="h-8 w-8 p-0"
+              onClick={() => {
+                toast.success(`Editando demanda ${row.original.numeroDemanda}`)
+              }}
+            >
+              <IconEdit className="h-4 w-4" />
+              <span className="sr-only">Editar</span>
+            </Button>
+          )}
           <Button
             variant="ghost"
             size="sm"
             className="h-8 w-8 p-0 text-destructive hover:text-destructive"
             onClick={() => {
-              toast.error(`Excluindo demanda ${row.original.numeroDemanda}`)
+              if (isPrioridadePage) {
+                onRemoveFromPriorities?.(row.original.id);
+                toast.success(`Removendo demanda ${row.original.numeroDemanda} da lista de prioridades`)
+              } else {
+                toast.error(`Excluindo demanda ${row.original.numeroDemanda}`)
+              }
             }}
           >
             <IconTrash className="h-4 w-4" />
-            <span className="sr-only">Excluir</span>
+            <span className="sr-only">{isPrioridadePage ? "Remover da lista" : "Excluir"}</span>
           </Button>
         </div>
       ),
@@ -424,13 +489,60 @@ export function DataTable({
         className="relative flex flex-col gap-4 overflow-auto px-4 lg:px-6"
       >
         <div className="overflow-hidden rounded-lg border">
-          <DndContext
-            collisionDetection={closestCenter}
-            modifiers={[restrictToVerticalAxis]}
-            onDragEnd={handleDragEnd}
-            sensors={sensors}
-            id={sortableId}
-          >
+          {isPrioridadePage ? (
+            <Table>
+              <TableHeader className="bg-muted sticky top-0 z-10">
+                {table.getHeaderGroups().map((headerGroup) => (
+                  <TableRow key={headerGroup.id}>
+                    {headerGroup.headers.map((header) => {
+                      return (
+                        <TableHead key={header.id} colSpan={header.colSpan}>
+                          {header.isPlaceholder
+                            ? null
+                            : flexRender(
+                                header.column.columnDef.header,
+                                header.getContext()
+                              )}
+                        </TableHead>
+                      )
+                    })}
+                  </TableRow>
+                ))}
+              </TableHeader>
+              <TableBody>
+                {table.getRowModel().rows?.length ? (
+                  table.getRowModel().rows.map((row) => (
+                    <TableRow
+                      key={row.id}
+                      data-state={row.getIsSelected() && "selected"}
+                    >
+                      {row.getVisibleCells().map((cell) => (
+                        <TableCell key={cell.id}>
+                          {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                        </TableCell>
+                      ))}
+                    </TableRow>
+                  ))
+                ) : (
+                  <TableRow>
+                    <TableCell
+                      colSpan={columns.length}
+                      className="h-24 text-center"
+                    >
+                      No results.
+                    </TableCell>
+                  </TableRow>
+                )}
+              </TableBody>
+            </Table>
+          ) : (
+            <DndContext
+              collisionDetection={closestCenter}
+              modifiers={[restrictToVerticalAxis]}
+              onDragEnd={handleDragEnd}
+              sensors={sensors}
+              id={sortableId}
+            >
             <Table>
               <TableHeader className="bg-muted sticky top-0 z-10">
                 {table.getHeaderGroups().map((headerGroup) => (
@@ -473,6 +585,7 @@ export function DataTable({
               </TableBody>
             </Table>
           </DndContext>
+          )}
         </div>
         <div className="flex items-center justify-between px-4">
           <div className="text-muted-foreground hidden flex-1 text-sm lg:flex">

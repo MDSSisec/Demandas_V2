@@ -9,6 +9,7 @@ import {
   IconFileAi,
   IconFileDescription,
   IconFileWord,
+  IconFlag,
   IconFolder,
   IconHelp,
   IconInnerShadowTop,
@@ -41,6 +42,11 @@ const data = {
   },
   navMain: [
     {
+      title: "Prioridade",
+      url: "/prioridade",
+      icon: IconFlag,
+    },
+    {
       title: "Dashboard",
       url: "/dashboard",
       icon: IconDashboard,
@@ -48,22 +54,22 @@ const data = {
     {
       title: "Demandas",
       url: "/demandas",
-      icon: IconListDetails,
+      icon: IconFileDescription,
     },
     {
-      title: "Analytics",
-      url: "/analytics",
-      icon: IconChartBar,
-    },
-    {
-      title: "Projects",
-      url: "#",
-      icon: IconFolder,
-    },
-    {
-      title: "Team",
-      url: "#",
+      title: "Listas Ouvidoria",
+      url: "/listas-ouvidoria",
       icon: IconUsers,
+    },
+    {
+      title: "Cadastrar Nova Lista (cadastro / lista)",
+      url: "#",
+      icon: IconReport,
+    },
+    {
+      title: "Parceiros (cadastro / lista)",
+      url: "#",
+      icon: IconReport,
     },
   ],
   navClouds: [
@@ -131,23 +137,6 @@ const data = {
       icon: IconSearch,
     },
   ],
-  documents: [
-    {
-      name: "Data Library",
-      url: "#",
-      icon: IconDatabase,
-    },
-    {
-      name: "Reports",
-      url: "#",
-      icon: IconReport,
-    },
-    {
-      name: "Word Assistant",
-      url: "#",
-      icon: IconFileWord,
-    },
-  ],
 }
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
@@ -170,7 +159,6 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       </SidebarHeader>
       <SidebarContent>
         <NavMain items={data.navMain} />
-        <NavDocuments items={data.documents} />
         <NavSecondary items={data.navSecondary} className="mt-auto" />
       </SidebarContent>
       <SidebarFooter>
