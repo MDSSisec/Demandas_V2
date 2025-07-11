@@ -30,7 +30,7 @@
   --chart-5: oklch(0.4200 0.1800 266);
   --sidebar: oklch(0.9850 0 0);
   --sidebar-foreground: oklch(0.1450 0 0);
-  --sidebar-primary: oklch(0.2050 0 0);
+  --sidebar-primary: #5a41d9;
   --sidebar-primary-foreground: oklch(0.9850 0 0);
   --sidebar-accent: oklch(0.9700 0 0);
   --sidebar-accent-foreground: oklch(0.2050 0 0);
@@ -79,7 +79,7 @@
   --chart-5: oklch(0.4200 0.1800 266);
   --sidebar: oklch(0.2050 0 0);
   --sidebar-foreground: oklch(0.9850 0 0);
-  --sidebar-primary: oklch(0.4880 0.2430 264.3760);
+  --sidebar-primary: #5a41d9;
   --sidebar-primary-foreground: oklch(0.9850 0 0);
   --sidebar-accent: oklch(0.2690 0 0);
   --sidebar-accent-foreground: oklch(0.9850 0 0);
@@ -159,4 +159,15 @@
   body {
     @apply bg-background text-foreground;
   }
+}
+
+/* Estilos específicos para o item ativo da sidebar */
+[data-active="true"] {
+  background-color: #5a41d9 !important;
+  color: white !important;
+}
+
+[data-active="true"]:hover {
+  background-color: #6b52ea !important;
+  color: white !important;
 }
