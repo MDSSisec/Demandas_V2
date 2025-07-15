@@ -26,7 +26,7 @@ const prioridadesData = [
     prioridade: 2,
     numeroDemanda: "4235679",
     titulo: "Correção de bugs no dashboard",
-    status: "Concluído",
+    status: "Em andamento",
     prazo: "10/12/2024"
   },
   {
@@ -42,7 +42,7 @@ const prioridadesData = [
     prioridade: 4,
     numeroDemanda: "4235681",
     titulo: "Otimização de performance",
-    status: "Em andamento",
+    status: "Pendente",
     prazo: "25/12/2024"
   },
   {
@@ -50,30 +50,6 @@ const prioridadesData = [
     prioridade: 5,
     numeroDemanda: "4235682",
     titulo: "Implementação de relatórios",
-    status: "Pendente",
-    prazo: "30/12/2024"
-  },
-  {
-    id: 6,
-    prioridade: 6,
-    numeroDemanda: "4235683",
-    titulo: "Atualização da documentação",
-    status: "Suspenso",
-    prazo: "30/12/2024"
-  },
-  {
-    id: 7,
-    prioridade: 7,
-    numeroDemanda: "4235684",
-    titulo: "Testes de integração",
-    status: "Pendente",
-    prazo: "30/12/2024"
-  },
-  {
-    id: 8,
-    prioridade: 8,
-    numeroDemanda: "4235685",
-    titulo: "Deploy em produção",
     status: "Pendente",
     prazo: "30/12/2024"
   },

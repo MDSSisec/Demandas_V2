@@ -229,7 +229,7 @@ export function DataTable({
       header: customColumnNames?.prioridade || "Prioridade",
       cell: ({ row }: { row: Row<z.infer<typeof schema>> }) => (
         <div className="font-bold text-lg text-primary">
-          #{String(row.original.prioridade).padStart(2, '0')}
+          Nº {String(row.original.prioridade).padStart(2, '0')}
         </div>
       ),
       enableHiding: false,
