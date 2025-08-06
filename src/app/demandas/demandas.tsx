@@ -51,30 +51,93 @@ const demandasData = [
   {
     id: 6,
     numeroDemanda: "4235683",
-    titulo: "Implementação de relatórios",
+    titulo: "Correção de vulnerabilidades de segurança",
     status: "Suspenso",
     prazo: "30/12/2024"
   },
   {
     id: 7,
     numeroDemanda: "4235684",
-    titulo: "Implementação de relatórios",
+    titulo: "Atualização da interface do usuário",
     status: "Pendente",
     prazo: "30/12/2024"
   },
   {
     id: 8,
     numeroDemanda: "4235685",
-    titulo: "Implementação de relatórios",
+    titulo: "Integração com API externa",
     status: "Pendente",
     prazo: "30/12/2024"
   },
   {
     id: 9,
     numeroDemanda: "4235686",
-    titulo: "Implementação de relatórios",
+    titulo: "Implementação de notificações push",
     status: "Pendente",
     prazo: "30/12/2024"
+  },
+  {
+    id: 10,
+    numeroDemanda: "4235687",
+    titulo: "Criação de dashboard administrativo",
+    status: "Em andamento",
+    prazo: "05/01/2025"
+  },
+  {
+    id: 11,
+    numeroDemanda: "4235688",
+    titulo: "Migração de banco de dados",
+    status: "Pendente",
+    prazo: "12/01/2025"
+  },
+  {
+    id: 12,
+    numeroDemanda: "4235689",
+    titulo: "Implementação de autenticação 2FA",
+    status: "Concluído",
+    prazo: "08/01/2025"
+  },
+  {
+    id: 13,
+    numeroDemanda: "4235690",
+    titulo: "Otimização de consultas SQL",
+    status: "Em andamento",
+    prazo: "15/01/2025"
+  },
+  {
+    id: 14,
+    numeroDemanda: "4235691",
+    titulo: "Criação de sistema de backup automático",
+    status: "Pendente",
+    prazo: "20/01/2025"
+  },
+  {
+    id: 15,
+    numeroDemanda: "4235692",
+    titulo: "Implementação de logs de auditoria",
+    status: "Suspenso",
+    prazo: "25/01/2025"
+  },
+  {
+    id: 16,
+    numeroDemanda: "4235693",
+    titulo: "Desenvolvimento de API REST",
+    status: "Pendente",
+    prazo: "30/01/2025"
+  },
+  {
+    id: 17,
+    numeroDemanda: "4235694",
+    titulo: "Testes de integração automatizados",
+    status: "Em andamento",
+    prazo: "05/02/2025"
+  },
+  {
+    id: 18,
+    numeroDemanda: "4235695",
+    titulo: "Implementação de sistema de autenticação",
+    status: "Pendente",
+    prazo: "12/02/2025"
   },
 ];
 
@@ -125,7 +188,7 @@ export default function Demandas() {
                 <DataTable 
                   data={filteredDemandas} 
                   showHeaderControls={false}
-                  pageSize={15}
+                  pageSize={14}
                   customColumnNames={{
                     numeroDemanda: "Nº Demanda",
                     titulo: "Título",
