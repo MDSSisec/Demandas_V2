@@ -137,7 +137,7 @@ export default function Prioridade() {
         <div className={styles.container}>
           <div className={styles.content}>
             <div className={styles.header}>
-              <h1 className={styles.title}>Prioridades</h1>
+              <h1 className={styles.title}>Fila de Prioridades</h1>
               <div className={styles.searchContainer}>
                 <Input
                   type="text"

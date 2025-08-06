@@ -12,7 +12,7 @@
 }
 
 .header {
-  padding: 0.5rem 1.5rem 0.5rem 1.5rem;
+  padding: 0.5rem 1rem 0.5rem 1rem;
   border-bottom: none;
   background: var(--background);
   display: flex;
@@ -61,8 +61,12 @@
 }
 
 @media (min-width: 1024px) {
+  .header {
+    padding: 0.5rem 1.5rem 0.5rem 1.5rem;
+  }
+  
   .tableWrapper {
-    padding: 0 1.5rem 1.5rem 1.5rem;
+    padding: 0;
   }
 }
 

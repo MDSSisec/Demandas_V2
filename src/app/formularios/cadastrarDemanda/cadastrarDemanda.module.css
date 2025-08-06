@@ -1,0 +1,161 @@
+.container {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.header {
+  padding: 0.5rem 1rem 0.5rem 1rem;
+  border-bottom: none;
+  background: var(--background);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.title {
+  font-size: 1.875rem;
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--foreground, #222);
+  margin: 0;
+  white-space: nowrap;
+}
+
+.formContainer {
+  flex: 1;
+  overflow: auto;
+  padding: 1rem;
+}
+
+.card {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.formGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+}
+
+.fullWidth {
+  grid-column: 1 / -1;
+}
+
+.halfWidth {
+  grid-column: span 1;
+}
+
+.rowThree {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
+
+.thirdWidth {
+  grid-column: span 1;
+}
+
+.prazoContainer {
+  grid-column: span 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.prazoHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.prazoLabel {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--foreground);
+}
+
+.prazoToggle {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.toggleLabel {
+  font-size: 0.875rem;
+  color: var(--foreground);
+  cursor: pointer;
+}
+
+.prazoInput {
+  margin-top: 0.5rem;
+}
+
+.buttonContainer {
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-end;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border);
+}
+
+.submitButton {
+  min-width: 150px;
+}
+
+.cancelButton {
+  min-width: 100px;
+}
+
+@media (min-width: 768px) {
+  .formGrid {
+    grid-template-columns: 1fr;
+  }
+  
+  .rowThree {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+  
+  .fullWidth {
+    grid-column: 1 / -1;
+  }
+  
+  .formContainer {
+    padding: 1.5rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .header {
+    padding: 0.5rem 1.5rem 0.5rem 1.5rem;
+  }
+  
+  .formContainer {
+    padding: 2rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .buttonContainer {
+    flex-direction: column;
+  }
+  
+  .submitButton,
+  .cancelButton {
+    width: 100%;
+  }
+}

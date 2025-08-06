@@ -14,6 +14,7 @@ import {
   IconHelp,
   IconInnerShadowTop,
   IconListDetails,
+  IconPlus,
   IconReport,
   IconSearch,
   IconSettings,
@@ -55,6 +56,11 @@ const data = {
       title: "Demandas",
       url: "/demandas",
       icon: IconFileDescription,
+    },
+    {
+      title: "Cadastro",
+      url: "/cadastro",
+      icon: IconPlus,
     },
     {
       title: "Listas Ouvidoria",

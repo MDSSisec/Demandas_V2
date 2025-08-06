@@ -10,7 +10,7 @@
   display: flex;
   flex-direction: column;
   gap: 4px;
-  padding: 16px;
+  padding: 0;
 }
 
 .header {
@@ -19,6 +19,7 @@
   align-items: center;
   margin-bottom: 16px;
   gap: 16px;
+  padding: 0.5rem 1rem 0.5rem 1rem;
 }
 
 .title {
@@ -45,6 +46,7 @@
 .tableWrapper {
   height: 100%;
   overflow: hidden;
+  padding: 0;
 }
 
 @media (max-width: 768px) {
@@ -57,8 +59,14 @@
   .searchInput {
     width: 100%;
   }
+}
+
+@media (min-width: 1024px) {
+  .header {
+    padding: 0.5rem 1.5rem 0.5rem 1.5rem;
+  }
   
-  .content {
-    padding: 12px;
+  .tableWrapper {
+    padding: 0;
   }
 }
