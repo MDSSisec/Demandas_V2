@@ -1,161 +1,211 @@
 .container {
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-}
-
-.content {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
 }
 
 .header {
-  padding: 0.5rem 1rem 0.5rem 1rem;
-  border-bottom: none;
-  background: var(--background);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  text-align: center;
+  margin-bottom: 3rem;
 }
 
 .title {
-  font-size: 1.875rem;
+  font-size: 2.5rem;
   font-weight: 700;
-  line-height: 1.2;
-  color: var(--foreground, #222);
+  color: #1f2937;
+  margin-bottom: 0.5rem;
+}
+
+.subtitle {
+  font-size: 1.125rem;
+  color: #6b7280;
   margin: 0;
-  white-space: nowrap;
 }
 
-.formContainer {
-  flex: 1;
-  overflow: auto;
-  padding: 1rem;
-}
-
-.card {
-  max-width: 1200px;
-  margin: 0 auto;
-}
-
-.form {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-}
-
-.formGrid {
+.cardsGrid {
   display: grid;
   grid-template-columns: 1fr;
   gap: 1.5rem;
-}
-
-.fullWidth {
-  grid-column: 1 / -1;
-}
-
-.halfWidth {
-  grid-column: span 1;
-}
-
-.rowThree {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 1rem;
-}
-
-.thirdWidth {
-  grid-column: span 1;
-}
-
-.prazoContainer {
-  grid-column: span 1;
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-}
-
-.prazoHeader {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.prazoLabel {
-  font-size: 0.875rem;
-  font-weight: 500;
-  color: var(--foreground);
-}
-
-.prazoToggle {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.toggleLabel {
-  font-size: 0.875rem;
-  color: var(--foreground);
-  cursor: pointer;
-}
-
-.prazoInput {
-  margin-top: 0.5rem;
-}
-
-.buttonContainer {
-  display: flex;
-  gap: 1rem;
-  justify-content: flex-end;
-  padding-top: 1rem;
-  border-top: 1px solid var(--border);
-}
-
-.submitButton {
-  min-width: 150px;
-}
-
-.cancelButton {
-  min-width: 100px;
+  margin-top: 2rem;
 }
 
 @media (min-width: 768px) {
-  .formGrid {
-    grid-template-columns: 1fr;
-  }
-  
-  .rowThree {
-    grid-template-columns: 1fr 1fr 1fr;
-  }
-  
-  .fullWidth {
-    grid-column: 1 / -1;
-  }
-  
-  .formContainer {
-    padding: 1.5rem;
+  .cardsGrid {
+    grid-template-columns: repeat(2, 1fr);
   }
 }
 
 @media (min-width: 1024px) {
-  .header {
-    padding: 0.5rem 1.5rem 0.5rem 1.5rem;
-  }
-  
-  .formContainer {
-    padding: 2rem;
+  .cardsGrid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
   }
 }
 
-@media (max-width: 640px) {
-  .buttonContainer {
-    flex-direction: column;
+.card {
+  border: 2px solid #e5e7eb;
+  transition: all 0.3s ease;
+  height: 100%;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+.cardBlue {
+  border-color: #dbeafe;
+  background: linear-gradient(135deg, #eff6ff 0%, #ffffff 100%);
+}
+
+.cardBlue:hover {
+  border-color: #93c5fd;
+}
+
+.cardGreen {
+  border-color: #dcfce7;
+  background: linear-gradient(135deg, #f0fdf4 0%, #ffffff 100%);
+}
+
+.cardGreen:hover {
+  border-color: #86efac;
+}
+
+.cardOrange {
+  border-color: #fed7aa;
+  background: linear-gradient(135deg, #fff7ed 0%, #ffffff 100%);
+}
+
+.cardOrange:hover {
+  border-color: #fdba74;
+}
+
+.cardPurple {
+  border-color: #e9d5ff;
+  background: linear-gradient(135deg, #faf5ff 0%, #ffffff 100%);
+}
+
+.cardPurple:hover {
+  border-color: #c084fc;
+}
+
+.cardHeader {
+  text-align: center;
+  padding: 2rem 1.5rem 1rem;
+}
+
+.iconContainer {
+  width: 4rem;
+  height: 4rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1.5rem;
+}
+
+.iconBlue {
+  background-color: #dbeafe;
+}
+
+.iconGreen {
+  background-color: #dcfce7;
+}
+
+.iconOrange {
+  background-color: #fed7aa;
+}
+
+.iconPurple {
+  background-color: #e9d5ff;
+}
+
+.icon {
+  width: 2rem;
+  height: 2rem;
+}
+
+.iconBlue .icon {
+  color: #2563eb;
+}
+
+.iconGreen .icon {
+  color: #16a34a;
+}
+
+.iconOrange .icon {
+  color: #ea580c;
+}
+
+.iconPurple .icon {
+  color: #9333ea;
+}
+
+.cardTitle {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #1f2937;
+  margin-bottom: 0.75rem;
+}
+
+.cardDescription {
+  font-size: 1rem;
+  color: #6b7280;
+  line-height: 1.5;
+  margin: 0;
+}
+
+.cardContent {
+  padding: 0 1.5rem 2rem;
+}
+
+/* Responsividade para mobile */
+@media (max-width: 767px) {
+  .container {
+    padding: 0 0.5rem;
   }
   
-  .submitButton,
-  .cancelButton {
-    width: 100%;
+  .header {
+    margin-bottom: 2rem;
+  }
+  
+  .title {
+    font-size: 2rem;
+  }
+  
+  .subtitle {
+    font-size: 1rem;
+  }
+  
+  .cardsGrid {
+    gap: 1.5rem;
+    grid-template-columns: 1fr;
+  }
+  
+  .cardHeader {
+    padding: 1.5rem 1rem 0.75rem;
+  }
+  
+  .iconContainer {
+    width: 3rem;
+    height: 3rem;
+    margin-bottom: 1rem;
+  }
+  
+  .icon {
+    width: 1.5rem;
+    height: 1.5rem;
+  }
+  
+  .cardTitle {
+    font-size: 1.25rem;
+  }
+  
+  .cardDescription {
+    font-size: 0.875rem;
+  }
+  
+  .cardContent {
+    padding: 0 1rem 1.5rem;
   }
 }
